@@ -6,7 +6,7 @@
 ### Содержание страницы
 
 - [Общие сведения](#section-1)
-- [Ссылки для загрузки](https://adslbarxatov.github.io/DPArray/ru#nameupdater)
+- [Ссылки для загрузки](https://adslbarxatov.github.io/DPArray/ru#name-updater)
 - [English version](https://adslbarxatov.github.io/NameUpdater)
 
 ---

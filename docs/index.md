@@ -6,7 +6,7 @@
 ### Page contents
 
 - [General information](#general-information)
-- [Download links](https://adslbarxatov.github.io/DPArray#nameupdater)
+- [Download links](https://adslbarxatov.github.io/DPArray#name-updater)
 - [Версия на русском языке](https://adslbarxatov.github.io/NameUpdater/ru)
 
 ---

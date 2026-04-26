@@ -1,11 +1,11 @@
 _en_us_
 
-- Internal assemblies have been updated
+- Initial incomplete release
 
 ⁂
 
 _ru_ru_
 
-- Обновлены внутренние сборки приложения
+- Начальный неполный релиз
 
 ⁂

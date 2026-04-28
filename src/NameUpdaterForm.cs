@@ -11,16 +11,7 @@ namespace RD_AAOW
 	/// </summary>
 	public partial class NameUpdaterForm: Form
 		{
-		private enum ComparisonModes
-			{
-			Unused = -1,
-
-			GreaterThan = 0,
-			LessThan = 1,
-			EqualTo = 2,
-			NotEqualTo = 3
-			}
-
+		// Доступные варианты подстановки
 		private enum SubstitutionTypes
 			{
 			SerialNumber = 0,
@@ -66,6 +57,8 @@ namespace RD_AAOW
 
 		private string failedFileName;
 
+		private NameUpdaterProfilesSet profilesSet = new NameUpdaterProfilesSet ();
+
 		/// <summary>
 		/// Конструктор. Настраивает главную форму приложения
 		/// </summary>
@@ -87,35 +80,84 @@ namespace RD_AAOW
 			RenameToActionFlag_CheckedChanged (null, null);
 
 			DateCriteriaField.MaxDate = RDGenerics.MaximumDatePickerValue;
+
+			ReloadProfiles ();
+			}
+
+		private void ReloadProfiles ()
+			{
+			ProfileCombo.Items.Clear ();
+			ProfileCombo.Items.AddRange (profilesSet.ProfileNames);
+
+			/*if (ProfileCombo.Items.Count < 1)
+				{
+				ProfileRemoveButton.Enabled = ProfileLoadButton.Enabled = false;
+				}
+			else
+				{
+				ProfileRemoveButton.Enabled = ProfileLoadButton.Enabled = true;
+				ProfileCombo.SelectedIndex = 0;
+				}*/
+			ProfileRemoveButton.Enabled = ProfileLoadButton.Enabled = ProfileCombo.Enabled =
+				(ProfileCombo.Items.Count > 0);
+			if (ProfileCombo.Enabled)
+				ProfileCombo.SelectedIndex = 0;
 			}
 
 		// Метод локализует форму
 		private void LocalizeForm ()
 			{
 			SizeCriteriaCombo.Items.Clear ();
-			SizeCriteriaCombo.Items.Add ("greater than");
+			/*SizeCriteriaCombo.Items.Add ("greater than");
 			SizeCriteriaCombo.Items.Add ("less than");
 			SizeCriteriaCombo.Items.Add ("equal to");
-			SizeCriteriaCombo.Items.Add ("not equal to");
+			SizeCriteriaCombo.Items.Add ("not equal to");*/
+			for (int i = 0; i < (int)ComparisonModes._Size_; i++)
+				SizeCriteriaCombo.Items.Add (RDLocale.GetText ("Comparison" + i.ToString ("D2")));
 			SizeCriteriaCombo.SelectedIndex = 0;
 
 			SizeCriteriaUnitCombo.Items.Clear ();
-			SizeCriteriaUnitCombo.Items.Add ("bytes");
+			/*SizeCriteriaUnitCombo.Items.Add ("bytes");
 			SizeCriteriaUnitCombo.Items.Add ("kilobytes");
 			SizeCriteriaUnitCombo.Items.Add ("megabytes");
-			SizeCriteriaUnitCombo.Items.Add ("gigabytes");
-			SizeCriteriaUnitCombo.SelectedIndex = 2;
+			SizeCriteriaUnitCombo.Items.Add ("gigabytes");*/
+			for (int i = 0; i < 4; i++)
+				SizeCriteriaUnitCombo.Items.Add (RDLocale.GetText ("SizeUnit" + i.ToString ("D2")));
+			SizeCriteriaUnitCombo.SelectedIndex = 1;    // Kb
 
 			DateCriteriaCombo.Items.Clear ();
-			DateCriteriaCombo.Items.Add ("greater than");
+			/*DateCriteriaCombo.Items.Add ("greater than");
 			DateCriteriaCombo.Items.Add ("less than");
 			DateCriteriaCombo.Items.Add ("equal to");
-			DateCriteriaCombo.Items.Add ("not equal to");
+			DateCriteriaCombo.Items.Add ("not equal to");*/
+			for (int i = 0; i < (int)ComparisonModes._Size_; i++)
+				DateCriteriaCombo.Items.Add (RDLocale.GetText ("Comparison" + i.ToString ("D2")));
 			DateCriteriaCombo.SelectedIndex = 0;
 
 			BAbout.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Control_AppAbout);
 			BLanguage.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Control_InterfaceLanguage);
 			BExit.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Exit);
+
+			RDLocale.SetControlText (Label01);
+			RDLocale.SetControlText (IncludeSubdirectoriesFlag);
+			RDLocale.SetControlText (Label02);
+			RDLocale.SetControlText (CharactersCriteriaFlag);
+			RDLocale.SetControlText (CharactersCriteriaButton);
+			RDLocale.SetControlText (SizeCriteriaFlag);
+			RDLocale.SetControlText (DateCriteriaFlag);
+
+			RDLocale.SetControlText (Label04);
+			RDLocale.SetControlText (MoveToActionFlag);
+			RDLocale.SetControlText (MoveToRadio);
+			RDLocale.SetControlText (CopyToRadio);
+			RDLocale.SetControlText (RenameToActionFlag);
+			RDLocale.SetControlText (Label05);
+			RDLocale.SetControlText (RenameToActionNumberButton);
+			RDLocale.SetControlText (RenameToActionDateButton);
+			RDLocale.SetControlText (RenameToActionNameButton);
+
+			RDLocale.SetControlText (StartButton);
+			RDLocale.SetControlText (ProfileLabel);
 			}
 
 		// Справка
@@ -168,8 +210,9 @@ namespace RD_AAOW
 				}
 			catch { }
 
-			CharactersCriteriaField.Focus ();
-			CharactersCriteriaField.Select (CharactersCriteriaField.Text.Length, 0);
+			/*CharactersCriteriaField.Focus ();
+			CharactersCriteriaField.Select (CharactersCriteriaField.Text.Length, 0);*/
+			RDInterface.SetFocusToTextbox (CharactersCriteriaField);
 			}
 
 		// Включение критерия «имеет размер»
@@ -213,22 +256,21 @@ namespace RD_AAOW
 		// Включение действия «переименовать»
 		private void RenameToActionFlag_CheckedChanged (object sender, EventArgs e)
 			{
-			RenameToActionDateButton.Enabled = RenameToActionNumberButton.Enabled =
+			RenameToActionDateButton.Enabled = RenameToActionNumberButton.Enabled = RenameToActionNameButton.Enabled =
 				RenameToActionField.Enabled = Label05.Enabled = RenameToActionFlag.Checked;
 			}
 
 		// Добавление порядкового номера
 		private void RenameToActionNumberButton_Click (object sender, EventArgs e)
 			{
-			string s = RDInterface.MessageBox ("Enter the minimum number length (number of padding zeros)",
-				true, 1, "3");
+			string s = RDInterface.LocalizedMessageBox ("MessageLengthRequest", true, 1, "3");
 			if (string.IsNullOrWhiteSpace (s))
 				return;
 
 			if (!"0123456789".Contains (s))
 				{
-				RDInterface.MessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText,
-					"Enter a correct length and try again");
+				RDInterface.LocalizedMessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText,
+					"MessageLengthError");
 				return;
 				}
 
@@ -239,8 +281,9 @@ namespace RD_AAOW
 				}
 			catch { }
 
-			RenameToActionField.Focus ();
-			RenameToActionField.Select (RenameToActionField.Text.Length, 0);
+			/*RenameToActionField.Focus ();
+			RenameToActionField.Select (RenameToActionField.Text.Length, 0);*/
+			RDInterface.SetFocusToTextbox (RenameToActionField);
 			}
 
 		// Добавление старого имени файла
@@ -252,8 +295,9 @@ namespace RD_AAOW
 				}
 			catch { }
 
-			RenameToActionField.Focus ();
-			RenameToActionField.Select (RenameToActionField.Text.Length, 0);
+			/*RenameToActionField.Focus ();
+			RenameToActionField.Select (RenameToActionField.Text.Length, 0);*/
+			RDInterface.SetFocusToTextbox (RenameToActionField);
 			}
 
 		// Добавление даты
@@ -265,8 +309,9 @@ namespace RD_AAOW
 				}
 			catch { }
 
-			RenameToActionField.Focus ();
-			RenameToActionField.Select (RenameToActionField.Text.Length, 0);
+			/*RenameToActionField.Focus ();
+			RenameToActionField.Select (RenameToActionField.Text.Length, 0);*/
+			RDInterface.SetFocusToTextbox (RenameToActionField);
 			}
 
 		// Запуск действия
@@ -293,15 +338,17 @@ namespace RD_AAOW
 			// Контроль исходной директории
 			if (string.IsNullOrWhiteSpace (SourceDirectoryField.Text))
 				{
-				RDInterface.MessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText,
-					"Source directory is not specified");
+				RDInterface.LocalizedMessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText,
+					"ErrorSourceDirectory");
+				RDInterface.SetFocusToTextbox (SourceDirectoryField);
 				return;
 				}
 
 			if (!Directory.Exists (SourceDirectoryField.Text))
 				{
-				RDInterface.MessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText,
-					"Source directory is not available");
+				RDInterface.LocalizedMessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText,
+					"ErrorSourceDirectoryUnavailable");
+				RDInterface.SetFocusToTextbox (SourceDirectoryField);
 				return;
 				}
 
@@ -316,8 +363,9 @@ namespace RD_AAOW
 					StringSplitOptions.RemoveEmptyEntries);
 				if (crt.Length < 1)
 					{
-					RDInterface.MessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText | RDMessageFlags.LockSmallSize,
-						"File name criteria doesn’t contain any applicable characters or words");
+					RDInterface.LocalizedMessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText |
+						RDMessageFlags.LockSmallSize, "ErrorCharactersCriteria");
+					RDInterface.SetFocusToTextbox (CharactersCriteriaField);
 					return;
 					}
 
@@ -328,7 +376,7 @@ namespace RD_AAOW
 			if (SizeCriteriaFlag.Checked)
 				{
 				sizeComparisonMode = (ComparisonModes)SizeCriteriaCombo.SelectedIndex;
-				sizeComparisonValue = (long)SizeCriteriaField.Value * (1l << (10 * SizeCriteriaUnitCombo.SelectedIndex));
+				sizeComparisonValue = (long)SizeCriteriaField.Value * (1L << (10 * SizeCriteriaUnitCombo.SelectedIndex));
 				}
 			else
 				{
@@ -350,8 +398,8 @@ namespace RD_AAOW
 			// Контроль действий над файлами
 			if (!MoveToActionFlag.Checked && !RenameToActionFlag.Checked)
 				{
-				RDInterface.MessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText,
-					"No actions selected to perform with files");
+				RDInterface.LocalizedMessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText,
+					"ErrorNoActions");
 				return;
 				}
 
@@ -360,15 +408,17 @@ namespace RD_AAOW
 				{
 				if (string.IsNullOrWhiteSpace (MoveToActionField.Text))
 					{
-					RDInterface.MessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText,
-						"Destination directory is not specified");
+					RDInterface.LocalizedMessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText,
+						"ErrorDestinationDirectory");
+					RDInterface.SetFocusToTextbox (MoveToActionField);
 					return;
 					}
 
 				if (!Directory.Exists (MoveToActionField.Text))
 					{
-					RDInterface.MessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText,
-						"Destination directory is not available");
+					RDInterface.LocalizedMessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText,
+						"ErrorDestinationDirectoryUnavailable");
+					RDInterface.SetFocusToTextbox (MoveToActionField);
 					return;
 					}
 
@@ -428,8 +478,8 @@ namespace RD_AAOW
 
 				if (!hasSerialNumber)
 					{
-					RDInterface.MessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText | RDMessageFlags.LockSmallSize,
-						"The file renaming can’t be used without at least one serial number position");
+					RDInterface.LocalizedMessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText |
+						RDMessageFlags.LockSmallSize, "ErrorNoSerialPattern");
 					return;
 					}
 				}
@@ -437,16 +487,18 @@ namespace RD_AAOW
 			#endregion
 
 			// Сбор сведений о файлах
-			RDInterface.RunWork (CollectFileData, null, "Collecting file data...", RDRunWorkFlags.CaptionInTheMiddle);
+			RDInterface.RunWork (CollectFileData, null, RDLocale.GetText ("MessageCollectingFileData"),
+				RDRunWorkFlags.CaptionInTheMiddle);
 
 			if (sourceFileNames.Count < 1)
 				{
-				RDInterface.MessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText | RDMessageFlags.LockSmallSize,
-					"Can’t find files matching the specified criteria");
+				RDInterface.LocalizedMessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText |
+					RDMessageFlags.LockSmallSize, "ErrorNoFitsFound");
 				return;
 				}
 
-			// Формирование имён конечных файлов
+			#region Формирование имён конечных файлов
+
 			destinationFileNames.Clear ();
 			for (int i = 0; i < sourceFileNames.Count; i++)
 				{
@@ -486,26 +538,26 @@ namespace RD_AAOW
 				destinationFileNames.Add (destinationDirectory + name + ext);
 				}
 
-			// Выполнение операции
-			RDInterface.RunWork (CopyMoveFiles, null, "Processing files...", RDRunWorkFlags.AllowOperationAbort |
-				RDRunWorkFlags.CaptionInTheMiddle);
+			#endregion
+
+			// Выполнение операций
+			RDInterface.RunWork (CopyMoveFiles, null, RDLocale.GetText ("MessageProcessingFiles"),
+				RDRunWorkFlags.AllowOperationAbort | RDRunWorkFlags.CaptionInTheMiddle);
 			switch (RDInterface.WorkResultAsInteger)
 				{
 				case -1:
 					RDInterface.MessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText | RDMessageFlags.LockSmallSize,
-						"Failed to move / copy file:" + RDLocale.RN + failedFileName + RDLocale.RNRN +
-						"Check that it is accessible, you has write permissions, and that there is no file " +
-						"with the same name in the destination directory");
+						string.Format (RDLocale.GetText ("ErrorFailedFileProcessing"), failedFileName));
 					break;
 
 				default:
-					RDInterface.MessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText,
-						"Operation has been interrupted by user");
+					RDInterface.LocalizedMessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText,
+						"MessageInterruption", 1500);
 					break;
 
 				case 0:
-					RDInterface.MessageBox (RDMessageFlags.Success | RDMessageFlags.CenterText,
-						"Operation has been completed successfully", 1500);
+					RDInterface.LocalizedMessageBox (RDMessageFlags.Success | RDMessageFlags.CenterText,
+						"MessageSuccess", 1500);
 					break;
 				}
 			}
@@ -540,16 +592,11 @@ namespace RD_AAOW
 				}
 
 			// Сбор сведений о файлах
-			/*List<FileInfo> fi = [];*/
-
 			bool dateCriteria = (dateComparisonMode != ComparisonModes.Unused);
 			bool sizeCriteria = (sizeComparisonMode != ComparisonModes.Unused);
 
-			/*if (dateCriteria || sizeCriteria)
-				{*/
 			for (int i = 0; i < sourceFileNames.Count; i++)
 				sourceFileInfo.Add (new FileInfo (sourceFileNames[i]));
-			/*}*/
 
 			// Прогон по размерам и датам
 			for (int i = sourceFileNames.Count - 1; i >= 0; i--)
@@ -632,8 +679,9 @@ namespace RD_AAOW
 
 				// Оповещение о прогрессе
 				bw.ReportProgress ((int)RDWorkerForm.ProgressBarSize * (i + 1) / sourceFileNames.Count,
-					"Processing file" + RDLocale.RN + (i + 1).ToString () + " out of " +
-					sourceFileNames.Count.ToString ());
+					/*"Processing file" + RDLocale.RN + (i + 1).ToString () + " out of " +
+					sourceFileNames.Count.ToString ()*/
+					string.Format (RDLocale.GetText ("MessageProcessing"), i + 1, sourceFileNames.Count));
 
 				// Выполнение
 				try
@@ -652,6 +700,138 @@ namespace RD_AAOW
 				}
 
 			e.Result = 0;
+			}
+
+		// Загрузка профиля
+		private void ProfileLoadButton_Click (object sender, EventArgs e)
+			{
+			// Контроль
+			NUProfile? prf = profilesSet.GetProfile ((uint)ProfileCombo.SelectedIndex);
+			if (prf == null)
+				{
+				RDInterface.LocalizedMessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText |
+					RDMessageFlags.LockSmallSize, "ErrorCannotLoadProfile");
+				return;
+				}
+			NUProfile profile = prf.Value;
+
+			// Загрузка с защитой
+			try
+				{
+				SourceDirectoryField.Text = profile.SourceDirectory;
+				IncludeSubdirectoriesFlag.Checked = profile.IncludeSubdirectories;
+
+				CharactersCriteriaFlag.Checked = profile.UseCharactersCriteria;
+				CharactersCriteriaField.Text = profile.CharactersCriteria;
+
+				SizeCriteriaFlag.Checked = profile.UseSizeCriteria;
+				SizeCriteriaCombo.SelectedIndex = (byte)profile.SizeComparisonMode;
+				SizeCriteriaField.Value = profile.SizeComparisonValue;
+				SizeCriteriaUnitCombo.SelectedIndex = profile.SizeComparisonMultiplier;
+
+				DateCriteriaFlag.Checked = profile.UseDateCriteria;
+				DateCriteriaCombo.SelectedIndex = (byte)profile.DateComparisonMode;
+				DateCriteriaField.Value = profile.DateComparisonValue;
+
+				switch (profile.MoveToActionType)
+					{
+					case MoveToActions.None:
+					default:
+						MoveToActionFlag.Checked = false;
+						break;
+
+					case MoveToActions.Move:
+						MoveToActionFlag.Checked = true;
+						MoveToRadio.Checked = true;
+						break;
+
+					case MoveToActions.Copy:
+						MoveToActionFlag.Checked = true;
+						CopyToRadio.Checked = true;
+						break;
+					}
+
+				MoveToActionField.Text = profile.DestinationDirectory;
+
+				RenameToActionFlag.Checked = profile.UseRenameAction;
+				RenameToActionField.Text = profile.RenamePattern;
+				}
+			catch
+				{
+				RDInterface.LocalizedMessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText,
+					"ErrorCannotLoadProfile");
+				}
+			}
+
+		// Удаление профиля
+		private void ProfileRemoveButton_Click (object sender, EventArgs e)
+			{
+			// Контроль
+			if (RDInterface.LocalizedMessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText,
+				"MessageRemoveProfile", RDLDefaultTexts.Button_YesNoFocus, RDLDefaultTexts.Button_No) !=
+				RDMessageButtons.ButtonOne)
+				return;
+
+			// Удаление
+			if (!profilesSet.RemoveProfile ((uint)ProfileCombo.SelectedIndex))
+				return;
+
+			ReloadProfiles ();
+			}
+
+		// Добавление профиля
+		private void ProfileAddButton_Click (object sender, EventArgs e)
+			{
+			// Запрос имени профиля
+			string name = RDInterface.LocalizedMessageBox ("MessageProfileName", true, 50);
+			if (string.IsNullOrWhiteSpace (name))
+				{
+				RDInterface.LocalizedMessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText,
+					"ErrorProfileNameIsEmpty", 1000);
+				return;
+				}
+
+			// Сборка настроек
+			NUProfile profile;
+			profile.SourceDirectory = SourceDirectoryField.Text;
+			profile.IncludeSubdirectories = IncludeSubdirectoriesFlag.Checked;
+
+			profile.UseCharactersCriteria = CharactersCriteriaFlag.Checked;
+			profile.CharactersCriteria = CharactersCriteriaField.Text;
+
+			profile.UseSizeCriteria = SizeCriteriaFlag.Checked;
+			profile.SizeComparisonMode = (ComparisonModes)SizeCriteriaCombo.SelectedIndex;
+			profile.SizeComparisonValue = (ulong)SizeCriteriaField.Value;
+			profile.SizeComparisonMultiplier = (byte)SizeCriteriaUnitCombo.SelectedIndex;
+
+			profile.UseDateCriteria = DateCriteriaFlag.Checked;
+			profile.DateComparisonMode = (ComparisonModes)DateCriteriaCombo.SelectedIndex;
+			profile.DateComparisonValue = DateCriteriaField.Value;
+
+			if (!MoveToActionFlag.Checked)
+				profile.MoveToActionType = MoveToActions.None;
+			else if (MoveToRadio.Checked)
+				profile.MoveToActionType = MoveToActions.Move;
+			else
+				profile.MoveToActionType = MoveToActions.Copy;
+
+			profile.DestinationDirectory = MoveToActionField.Text;
+
+			profile.UseRenameAction = RenameToActionFlag.Checked;
+			profile.RenamePattern = RenameToActionField.Text;
+
+			// Добавление
+			profile.Version = NUProfileVersions.Latest;
+			if (!profilesSet.AddProfile (name, profile))
+				{
+				RDInterface.LocalizedMessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText |
+					RDMessageFlags.LockSmallSize, "ErrorCannotSaveProfile");
+				return;
+				}
+
+			// Успешно
+			ReloadProfiles ();
+			ProfileCombo.SelectedIndex = ProfileCombo.Items.Count - 1;
 			}
 		}
 	}

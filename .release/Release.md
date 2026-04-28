@@ -1,11 +1,13 @@
 _en_us_
 
-- Initial incomplete release
+- Implemented the complete localization;
+- Implemented the saveable profiles for app settings
 
 ⁂
 
 _ru_ru_
 
-- Начальный неполный релиз
+- Внедрена полная локализация продукта;
+- Внедрены сохраняемые профили настроек программы
 
 ⁂

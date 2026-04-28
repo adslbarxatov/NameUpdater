@@ -117,7 +117,152 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="StatsText" xml:space="preserve">
-    <value>Результаты игры</value>
+  <data name="CharactersCriteriaButton" xml:space="preserve">
+    <value>ИЛИ</value>
+  </data>
+  <data name="CharactersCriteriaFlag" xml:space="preserve">
+    <value>содержат следующие символы или слова в своих именах:</value>
+  </data>
+  <data name="Comparison00" xml:space="preserve">
+    <value>больше, чем</value>
+  </data>
+  <data name="Comparison01" xml:space="preserve">
+    <value>меньше, чем</value>
+  </data>
+  <data name="Comparison02" xml:space="preserve">
+    <value>равно</value>
+  </data>
+  <data name="Comparison03" xml:space="preserve">
+    <value>не равно</value>
+  </data>
+  <data name="CopyToRadio" xml:space="preserve">
+    <value>скопировать</value>
+  </data>
+  <data name="DateCriteriaFlag" xml:space="preserve">
+    <value>имеют дату изменения</value>
+  </data>
+  <data name="ErrorCannotLoadProfile" xml:space="preserve">
+    <value>Не удаётся загрузить выбранный профиль. Возможно, соответствующий ему файл профиля повреждён</value>
+  </data>
+  <data name="ErrorCannotSaveProfile" xml:space="preserve">
+    <value>Не удалось сохранить профиль. Проверьте доступность директории приложения для записи</value>
+  </data>
+  <data name="ErrorCharactersCriteria" xml:space="preserve">
+    <value>Критерий для имени файла не содержит подходящих символов или слов</value>
+  </data>
+  <data name="ErrorDestinationDirectory" xml:space="preserve">
+    <value>Не указан каталог назначения</value>
+  </data>
+  <data name="ErrorDestinationDirectoryUnavailable" xml:space="preserve">
+    <value>Каталог назначения недоступен</value>
+  </data>
+  <data name="ErrorFailedFileProcessing" xml:space="preserve">
+    <value>Не удаётся переместить / скопировать файл:
+{0:S}
+
+Убедитесь, что каталог доступен, у вас есть права на запись, и что в целевом каталоге нет файла с таким же именем</value>
+  </data>
+  <data name="ErrorNoActions" xml:space="preserve">
+    <value>Не выбраны действия с файлами</value>
+  </data>
+  <data name="ErrorNoFitsFound" xml:space="preserve">
+    <value>Файлы, соответствующие указанным критериям, не найдены</value>
+  </data>
+  <data name="ErrorNoSerialPattern" xml:space="preserve">
+    <value>Использование переименования файла невозможно без, по меньшей мере, одного маркера серийного номера</value>
+  </data>
+  <data name="ErrorProfileNameIsEmpty" xml:space="preserve">
+    <value>Не указано название профиля</value>
+  </data>
+  <data name="ErrorSourceDirectory" xml:space="preserve">
+    <value>Не указан исходный каталог</value>
+  </data>
+  <data name="ErrorSourceDirectoryUnavailable" xml:space="preserve">
+    <value>Исходный каталог недоступен</value>
+  </data>
+  <data name="IncludeSubdirectoriesFlag" xml:space="preserve">
+    <value>включая подпапки</value>
+  </data>
+  <data name="Label01" xml:space="preserve">
+    <value>Все файлы из</value>
+  </data>
+  <data name="Label02" xml:space="preserve">
+    <value>которые (одновременно)</value>
+  </data>
+  <data name="Label04" xml:space="preserve">
+    <value>должны быть (одновременно)</value>
+  </data>
+  <data name="Label05" xml:space="preserve">
+    <value>(расширение файла не будет изменено)</value>
+  </data>
+  <data name="MessageCollectingFileData" xml:space="preserve">
+    <value>Получение сведений о файлах...</value>
+  </data>
+  <data name="MessageInterruption" xml:space="preserve">
+    <value>Операция прервана пользователем</value>
+  </data>
+  <data name="MessageLengthError" xml:space="preserve">
+    <value>Введите корректную длину для маркера номера и попробуйте снова</value>
+  </data>
+  <data name="MessageLengthRequest" xml:space="preserve">
+    <value>Введите минимальную длину номера (количество заполняющих нулей):</value>
+  </data>
+  <data name="MessageProcessing" xml:space="preserve">
+    <value>Обработка файла
+{0:D} из {1:D}</value>
+  </data>
+  <data name="MessageProcessingFiles" xml:space="preserve">
+    <value>Обработка файлов...</value>
+  </data>
+  <data name="MessageProfileName" xml:space="preserve">
+    <value>Укажите название профиля настроек</value>
+  </data>
+  <data name="MessageRemoveProfile" xml:space="preserve">
+    <value>Удалить выбранный профиль?</value>
+  </data>
+  <data name="MessageSuccess" xml:space="preserve">
+    <value>Операция успешно завершена</value>
+  </data>
+  <data name="MoveToActionFlag" xml:space="preserve">
+    <value>перемещены или скопированы в</value>
+  </data>
+  <data name="MoveToRadio" xml:space="preserve">
+    <value>переместить</value>
+  </data>
+  <data name="nupfile" xml:space="preserve">
+    <value>Профиль настроек Name updater</value>
+  </data>
+  <data name="ProfileLabel" xml:space="preserve">
+    <value>Профиль:</value>
+  </data>
+  <data name="RenameToActionDateButton" xml:space="preserve">
+    <value>Добавить дату изменения</value>
+  </data>
+  <data name="RenameToActionFlag" xml:space="preserve">
+    <value>переименованы в</value>
+  </data>
+  <data name="RenameToActionNameButton" xml:space="preserve">
+    <value>Добавить старое имя файла</value>
+  </data>
+  <data name="RenameToActionNumberButton" xml:space="preserve">
+    <value>Добавить порядковый номер</value>
+  </data>
+  <data name="SizeCriteriaFlag" xml:space="preserve">
+    <value>имеют размер</value>
+  </data>
+  <data name="SizeUnit00" xml:space="preserve">
+    <value>байт</value>
+  </data>
+  <data name="SizeUnit01" xml:space="preserve">
+    <value>килобайт</value>
+  </data>
+  <data name="SizeUnit02" xml:space="preserve">
+    <value>мегабайт</value>
+  </data>
+  <data name="SizeUnit03" xml:space="preserve">
+    <value>гигабайт</value>
+  </data>
+  <data name="StartButton" xml:space="preserve">
+    <value>Начать</value>
   </data>
 </root>

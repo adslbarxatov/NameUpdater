@@ -1,8 +1,8 @@
 NameUpdater: changes log
 
-ToDo:
-- complete localization
-- add saveable profiles
+Version 1.0:
+• Implemented the complete localization;
+• Implemented the saveable profiles for app settings
 
 Version 0.9:
 • Initial incomplete release

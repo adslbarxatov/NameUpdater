@@ -50,6 +50,7 @@ namespace RD_AAOW
 		private bool copyOnly;
 		private string destinationName;
 		private List<string[]> destinationNameSubs = [];
+		private ulong startNumber;
 
 		private List<string> sourceFileNames = [];
 		private List<FileInfo> sourceFileInfo = [];
@@ -89,15 +90,6 @@ namespace RD_AAOW
 			ProfileCombo.Items.Clear ();
 			ProfileCombo.Items.AddRange (profilesSet.ProfileNames);
 
-			/*if (ProfileCombo.Items.Count < 1)
-				{
-				ProfileRemoveButton.Enabled = ProfileLoadButton.Enabled = false;
-				}
-			else
-				{
-				ProfileRemoveButton.Enabled = ProfileLoadButton.Enabled = true;
-				ProfileCombo.SelectedIndex = 0;
-				}*/
 			ProfileRemoveButton.Enabled = ProfileLoadButton.Enabled = ProfileCombo.Enabled =
 				(ProfileCombo.Items.Count > 0);
 			if (ProfileCombo.Enabled)
@@ -108,28 +100,16 @@ namespace RD_AAOW
 		private void LocalizeForm ()
 			{
 			SizeCriteriaCombo.Items.Clear ();
-			/*SizeCriteriaCombo.Items.Add ("greater than");
-			SizeCriteriaCombo.Items.Add ("less than");
-			SizeCriteriaCombo.Items.Add ("equal to");
-			SizeCriteriaCombo.Items.Add ("not equal to");*/
 			for (int i = 0; i < (int)ComparisonModes._Size_; i++)
 				SizeCriteriaCombo.Items.Add (RDLocale.GetText ("Comparison" + i.ToString ("D2")));
 			SizeCriteriaCombo.SelectedIndex = 0;
 
 			SizeCriteriaUnitCombo.Items.Clear ();
-			/*SizeCriteriaUnitCombo.Items.Add ("bytes");
-			SizeCriteriaUnitCombo.Items.Add ("kilobytes");
-			SizeCriteriaUnitCombo.Items.Add ("megabytes");
-			SizeCriteriaUnitCombo.Items.Add ("gigabytes");*/
 			for (int i = 0; i < 4; i++)
 				SizeCriteriaUnitCombo.Items.Add (RDLocale.GetText ("SizeUnit" + i.ToString ("D2")));
-			SizeCriteriaUnitCombo.SelectedIndex = 1;    // Kb
+			SizeCriteriaUnitCombo.SelectedIndex = 1;	// Kb
 
 			DateCriteriaCombo.Items.Clear ();
-			/*DateCriteriaCombo.Items.Add ("greater than");
-			DateCriteriaCombo.Items.Add ("less than");
-			DateCriteriaCombo.Items.Add ("equal to");
-			DateCriteriaCombo.Items.Add ("not equal to");*/
 			for (int i = 0; i < (int)ComparisonModes._Size_; i++)
 				DateCriteriaCombo.Items.Add (RDLocale.GetText ("Comparison" + i.ToString ("D2")));
 			DateCriteriaCombo.SelectedIndex = 0;
@@ -158,6 +138,11 @@ namespace RD_AAOW
 
 			RDLocale.SetControlText (StartButton);
 			RDLocale.SetControlText (ProfileLabel);
+
+			RDLocale.SetControlText (CreateDirectoryFlag);
+			RDLocale.SetControlText (Label10);
+			RDLocale.SetControlText (InputPage);
+			RDLocale.SetControlText (OutputPage);
 			}
 
 		// Справка
@@ -210,8 +195,6 @@ namespace RD_AAOW
 				}
 			catch { }
 
-			/*CharactersCriteriaField.Focus ();
-			CharactersCriteriaField.Select (CharactersCriteriaField.Text.Length, 0);*/
 			RDInterface.SetFocusToTextbox (CharactersCriteriaField);
 			}
 
@@ -240,7 +223,7 @@ namespace RD_AAOW
 		private void MoveToActionFlag_CheckedChanged (object sender, EventArgs e)
 			{
 			MoveToActionButton.Enabled = MoveToActionField.Enabled = MoveToRadio.Enabled =
-				CopyToRadio.Enabled = MoveToActionFlag.Checked;
+				CopyToRadio.Enabled = CreateDirectoryFlag.Enabled = MoveToActionFlag.Checked;
 			}
 
 		// Выбор конечной директории
@@ -257,7 +240,8 @@ namespace RD_AAOW
 		private void RenameToActionFlag_CheckedChanged (object sender, EventArgs e)
 			{
 			RenameToActionDateButton.Enabled = RenameToActionNumberButton.Enabled = RenameToActionNameButton.Enabled =
-				RenameToActionField.Enabled = Label05.Enabled = RenameToActionFlag.Checked;
+				RenameToActionField.Enabled = Label05.Enabled = Label10.Enabled = NumberOffsetField.Enabled =
+				RenameToActionFlag.Checked;
 			}
 
 		// Добавление порядкового номера
@@ -281,8 +265,6 @@ namespace RD_AAOW
 				}
 			catch { }
 
-			/*RenameToActionField.Focus ();
-			RenameToActionField.Select (RenameToActionField.Text.Length, 0);*/
 			RDInterface.SetFocusToTextbox (RenameToActionField);
 			}
 
@@ -295,8 +277,6 @@ namespace RD_AAOW
 				}
 			catch { }
 
-			/*RenameToActionField.Focus ();
-			RenameToActionField.Select (RenameToActionField.Text.Length, 0);*/
 			RDInterface.SetFocusToTextbox (RenameToActionField);
 			}
 
@@ -309,8 +289,6 @@ namespace RD_AAOW
 				}
 			catch { }
 
-			/*RenameToActionField.Focus ();
-			RenameToActionField.Select (RenameToActionField.Text.Length, 0);*/
 			RDInterface.SetFocusToTextbox (RenameToActionField);
 			}
 
@@ -414,7 +392,29 @@ namespace RD_AAOW
 					return;
 					}
 
+				bool created = true;
 				if (!Directory.Exists (MoveToActionField.Text))
+					{
+					if (CreateDirectoryFlag.Checked)
+						{
+						// Попытка создания, если оно разрешено
+						try
+							{
+							Directory.CreateDirectory (MoveToActionField.Text);
+							}
+						catch
+							{
+							created = false;
+							}
+						}
+					else
+						{
+						// Создание запрещено – директория недоступна
+						created = false;
+						}
+					}
+
+				if (!created)
 					{
 					RDInterface.LocalizedMessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText,
 						"ErrorDestinationDirectoryUnavailable");
@@ -497,48 +497,10 @@ namespace RD_AAOW
 				return;
 				}
 
-			#region Формирование имён конечных файлов
-
-			destinationFileNames.Clear ();
-			for (int i = 0; i < sourceFileNames.Count; i++)
-				{
-				string name;
-				if (string.IsNullOrWhiteSpace (destinationName))
-					name = Path.GetFileNameWithoutExtension (sourceFileNames[i]);
-				else
-					name = destinationName;
-
-				string ext = Path.GetExtension (sourceFileNames[i]);
-				if (string.IsNullOrWhiteSpace (ext))
-					ext = "";
-
-				for (int j = 0; j < destinationNameSubs.Count; j++)
-					{
-					SubstitutionTypes sType = (SubstitutionTypes)byte.Parse (destinationNameSubs[j][1]);
-
-					switch (sType)
-						{
-						case SubstitutionTypes.SerialNumber:
-						default:
-							name = name.Replace (destinationNameSubs[j][0], (i + 1).ToString (destinationNameSubs[j][2]));
-							break;
-
-						case SubstitutionTypes.OldFileName:
-							name = name.Replace (destinationNameSubs[j][0],
-								Path.GetFileNameWithoutExtension (sourceFileNames[i]));
-							break;
-
-						case SubstitutionTypes.ModificationDateTime:
-							name = name.Replace (destinationNameSubs[j][0],
-								sourceFileInfo[i].LastWriteTime.ToString (destinationNameSubs[j][2]));
-							break;
-						}
-					}
-
-				destinationFileNames.Add (destinationDirectory + name + ext);
-				}
-
-			#endregion
+			// Формирование имён конечных файлов
+			startNumber = (ulong)NumberOffsetField.Value;
+			RDInterface.RunWork (BuildFileNames, null, RDLocale.GetText ("MessageBuildingFileNames"),
+				RDRunWorkFlags.CaptionInTheMiddle);
 
 			// Выполнение операций
 			RDInterface.RunWork (CopyMoveFiles, null, RDLocale.GetText ("MessageProcessingFiles"),
@@ -679,8 +641,6 @@ namespace RD_AAOW
 
 				// Оповещение о прогрессе
 				bw.ReportProgress ((int)RDWorkerForm.ProgressBarSize * (i + 1) / sourceFileNames.Count,
-					/*"Processing file" + RDLocale.RN + (i + 1).ToString () + " out of " +
-					sourceFileNames.Count.ToString ()*/
 					string.Format (RDLocale.GetText ("MessageProcessing"), i + 1, sourceFileNames.Count));
 
 				// Выполнение
@@ -697,6 +657,56 @@ namespace RD_AAOW
 					e.Result = -1;
 					return;
 					}
+				}
+
+			e.Result = 0;
+			}
+
+		// Метод формирования имён файлов
+		private void BuildFileNames (object sender, DoWorkEventArgs e)
+			{
+			destinationFileNames.Clear ();
+			for (int i = 0; i < sourceFileNames.Count; i++)
+				{
+				// Определение варианта имени файла
+				string name;
+				if (string.IsNullOrWhiteSpace (destinationName))
+					name = Path.GetFileNameWithoutExtension (sourceFileNames[i]);
+				else
+					name = destinationName;
+
+				// Расширение файла
+				string ext = Path.GetExtension (sourceFileNames[i]);
+				if (string.IsNullOrWhiteSpace (ext))
+					ext = "";
+
+				// Обработка подстановок
+				for (int j = 0; j < destinationNameSubs.Count; j++)
+					{
+					SubstitutionTypes sType = (SubstitutionTypes)byte.Parse (destinationNameSubs[j][1]);
+
+					switch (sType)
+						{
+						case SubstitutionTypes.SerialNumber:
+						default:
+							name = name.Replace (destinationNameSubs[j][0],
+								/*(i + 1).ToString (destinationNameSubs[j][2]));*/
+								((ulong)i + startNumber).ToString (destinationNameSubs[j][2]));
+							break;
+
+						case SubstitutionTypes.OldFileName:
+							name = name.Replace (destinationNameSubs[j][0],
+								Path.GetFileNameWithoutExtension (sourceFileNames[i]));
+							break;
+
+						case SubstitutionTypes.ModificationDateTime:
+							name = name.Replace (destinationNameSubs[j][0],
+								sourceFileInfo[i].LastWriteTime.ToString (destinationNameSubs[j][2]));
+							break;
+						}
+					}
+
+				destinationFileNames.Add (destinationDirectory + name + ext);
 				}
 
 			e.Result = 0;
@@ -755,6 +765,9 @@ namespace RD_AAOW
 
 				RenameToActionFlag.Checked = profile.UseRenameAction;
 				RenameToActionField.Text = profile.RenamePattern;
+
+				CreateDirectoryFlag.Checked = profile.CreateDirectory;
+				NumberOffsetField.Value = profile.NumberOffset;
 				}
 			catch
 				{
@@ -819,6 +832,9 @@ namespace RD_AAOW
 
 			profile.UseRenameAction = RenameToActionFlag.Checked;
 			profile.RenamePattern = RenameToActionField.Text;
+
+			profile.CreateDirectory = CreateDirectoryFlag.Checked;
+			profile.NumberOffset = (ulong)NumberOffsetField.Value;
 
 			// Добавление
 			profile.Version = NUProfileVersions.Latest;

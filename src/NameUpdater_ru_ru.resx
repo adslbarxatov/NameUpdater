@@ -138,6 +138,9 @@
   <data name="CopyToRadio" xml:space="preserve">
     <value>скопировать</value>
   </data>
+  <data name="CreateDirectoryFlag" xml:space="preserve">
+    <value>Создавать директорию</value>
+  </data>
   <data name="DateCriteriaFlag" xml:space="preserve">
     <value>имеют дату изменения</value>
   </data>
@@ -183,6 +186,9 @@
   <data name="IncludeSubdirectoriesFlag" xml:space="preserve">
     <value>включая подпапки</value>
   </data>
+  <data name="InputPage" xml:space="preserve">
+    <value>Условия</value>
+  </data>
   <data name="Label01" xml:space="preserve">
     <value>Все файлы из</value>
   </data>
@@ -194,6 +200,12 @@
   </data>
   <data name="Label05" xml:space="preserve">
     <value>(расширение файла не будет изменено)</value>
+  </data>
+  <data name="Label10" xml:space="preserve">
+    <value>Начальный номер:</value>
+  </data>
+  <data name="MessageBuildingFileNames" xml:space="preserve">
+    <value>Формирование имён файлов...</value>
   </data>
   <data name="MessageCollectingFileData" xml:space="preserve">
     <value>Получение сведений о файлах...</value>
@@ -231,6 +243,9 @@
   </data>
   <data name="nupfile" xml:space="preserve">
     <value>Профиль настроек Name updater</value>
+  </data>
+  <data name="OutputPage" xml:space="preserve">
+    <value>Действия</value>
   </data>
   <data name="ProfileLabel" xml:space="preserve">
     <value>Профиль:</value>

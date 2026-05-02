@@ -1,8 +1,9 @@
 NameUpdater: changes log
 
-ToDo:
-- Add the ability to create the output directory
-- Add the serial number offset
+Version 1.1:
+• Added the ability to create the target directory;
+• Added the ability to set the first serial number for target files;
+• Fixed the incorrect processing of profiles with matching names
 
 Version 1.0:
 • Implemented the complete localization;

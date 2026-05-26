@@ -114,9 +114,12 @@ namespace RD_AAOW
 				DateCriteriaCombo.Items.Add (RDLocale.GetText ("Comparison" + i.ToString ("D2")));
 			DateCriteriaCombo.SelectedIndex = 0;
 
-			BAbout.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Control_AppAbout);
-			BLanguage.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Control_InterfaceLanguage);
-			BExit.Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Exit);
+			/*BAbout. Text = RDLocale.GetDefaultText (RDLDefaultTexts.Control_AppAbout);
+			BLanguage. Text = RDLocale.GetDefaultText (RDLDefaultTexts.Control_InterfaceLanguage);
+			BExit. Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Exit);*/
+			RDLocale.SetDefaultControlText (BAbout, RDLDefaultTexts.Control_AppAbout);
+			RDLocale.SetDefaultControlText (BLanguage, RDLDefaultTexts.Control_InterfaceLanguage);
+			RDLocale.SetDefaultControlText (BExit, RDLDefaultTexts.Button_Exit);
 
 			RDLocale.SetControlText (Label01);
 			RDLocale.SetControlText (IncludeSubdirectoriesFlag);
@@ -690,7 +693,6 @@ namespace RD_AAOW
 						case SubstitutionTypes.SerialNumber:
 						default:
 							name = name.Replace (destinationNameSubs[j][0],
-								/*(i + 1).ToString (destinationNameSubs[j][2]));*/
 								((ulong)i + startNumber).ToString (destinationNameSubs[j][2]));
 							break;
 
@@ -796,7 +798,8 @@ namespace RD_AAOW
 		private void ProfileAddButton_Click (object sender, EventArgs e)
 			{
 			// Запрос имени профиля
-			string name = RDInterface.LocalizedMessageBox ("MessageProfileName", true, 50);
+			string old = string.IsNullOrWhiteSpace (ProfileCombo.Text) ? "" : ProfileCombo.Text;
+			string name = RDInterface.LocalizedMessageBox ("MessageProfileName", true, 30, old);
 			if (string.IsNullOrWhiteSpace (name))
 				{
 				RDInterface.LocalizedMessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText,

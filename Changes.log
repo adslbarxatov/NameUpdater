@@ -1,5 +1,9 @@
 NameUpdater: changes log
 
+Version 1.1.1:
+• App will add the name of currently selected profile to the input box when creating
+  the new profile to simplify updating of existing profiles
+
 Version 1.1:
 • Added the ability to create the target directory;
 • Added the ability to set the first serial number for target files;

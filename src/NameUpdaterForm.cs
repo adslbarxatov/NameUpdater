@@ -114,9 +114,6 @@ namespace RD_AAOW
 				DateCriteriaCombo.Items.Add (RDLocale.GetText ("Comparison" + i.ToString ("D2")));
 			DateCriteriaCombo.SelectedIndex = 0;
 
-			/*BAbout. Text = RDLocale.GetDefaultText (RDLDefaultTexts.Control_AppAbout);
-			BLanguage. Text = RDLocale.GetDefaultText (RDLDefaultTexts.Control_InterfaceLanguage);
-			BExit. Text = RDLocale.GetDefaultText (RDLDefaultTexts.Button_Exit);*/
 			RDLocale.SetDefaultControlText (BAbout, RDLDefaultTexts.Control_AppAbout);
 			RDLocale.SetDefaultControlText (BLanguage, RDLDefaultTexts.Control_InterfaceLanguage);
 			RDLocale.SetDefaultControlText (BExit, RDLDefaultTexts.Button_Exit);
@@ -840,7 +837,7 @@ namespace RD_AAOW
 			profile.NumberOffset = (ulong)NumberOffsetField.Value;
 
 			// Добавление
-			profile.Version = NUProfileVersions.Latest;
+			profile.Version = NUProfileVersions.Actual;
 			if (!profilesSet.AddProfile (name, profile))
 				{
 				RDInterface.LocalizedMessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText |

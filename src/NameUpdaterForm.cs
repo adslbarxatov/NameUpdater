@@ -837,7 +837,7 @@ namespace RD_AAOW
 			profile.NumberOffset = (ulong)NumberOffsetField.Value;
 
 			// Добавление
-			profile.Version = NUProfileVersions.Actual;
+			profile.Version = RDFormatSignatures.NUPActual;
 			if (!profilesSet.AddProfile (name, profile))
 				{
 				RDInterface.LocalizedMessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText |

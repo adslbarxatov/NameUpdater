@@ -242,7 +242,7 @@ Check that it is accessible, you has write permissions, and that there is no fil
     <value>move</value>
   </data>
   <data name="nupfile" xml:space="preserve">
-    <value>Name updater’s settings profile</value>
+    <value>NameUpdater settings profile</value>
   </data>
   <data name="OutputPage" xml:space="preserve">
     <value>Actions</value>

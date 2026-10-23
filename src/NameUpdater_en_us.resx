@@ -183,6 +183,9 @@ Check that it is accessible, you has write permissions, and that there is no fil
   <data name="ErrorSourceDirectoryUnavailable" xml:space="preserve">
     <value>Source directory is not available</value>
   </data>
+  <data name="FilesListLabel" xml:space="preserve">
+    <value>List of matching files:</value>
+  </data>
   <data name="IncludeSubdirectoriesFlag" xml:space="preserve">
     <value>including subdirectories</value>
   </data>
@@ -261,6 +264,9 @@ Check that it is accessible, you has write permissions, and that there is no fil
   </data>
   <data name="RenameToActionNumberButton" xml:space="preserve">
     <value>Add serial number</value>
+  </data>
+  <data name="ShowResultsActionFlag" xml:space="preserve">
+    <value>Show list of matching files</value>
   </data>
   <data name="SizeCriteriaFlag" xml:space="preserve">
     <value>have size</value>

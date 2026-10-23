@@ -183,6 +183,9 @@
   <data name="ErrorSourceDirectoryUnavailable" xml:space="preserve">
     <value>Исходный каталог недоступен</value>
   </data>
+  <data name="FilesListLabel" xml:space="preserve">
+    <value>Список подходящих файлов:</value>
+  </data>
   <data name="IncludeSubdirectoriesFlag" xml:space="preserve">
     <value>включая подпапки</value>
   </data>
@@ -261,6 +264,9 @@
   </data>
   <data name="RenameToActionNumberButton" xml:space="preserve">
     <value>Добавить порядковый номер</value>
+  </data>
+  <data name="ShowResultsActionFlag" xml:space="preserve">
+    <value>Показать список подходящих файлов</value>
   </data>
   <data name="SizeCriteriaFlag" xml:space="preserve">
     <value>имеют размер</value>

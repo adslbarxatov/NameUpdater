@@ -1,15 +1,15 @@
 _en_us_
 
-- Internal assemblies have been updated;
-- Correct placement for profiles storage has been applied;
-- Applied the updated GitHub markup for version numbers
+- Added the option to watch the list of matching files without any action;
+- Support for profile version `1` has been discontinued;
+- User videoguide has been added
 
 ⁂
 
 _ru_ru_
 
-- Обновлены внутренние сборки приложения;
-- Применено корректное расположение для файлов профилей;
-- Применена обновлённая разметка GitHub для номеров версий
+- Добавлена возможность просматривать список найденных файлов без выполнения каких-либо действий;
+- Прекращена поддержка профилей версии `1`;
+- Добавлено видеоруководство пользователя
 
 ⁂

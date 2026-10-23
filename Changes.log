@@ -1,5 +1,10 @@
 NameUpdater: changes log
 
+Version 1.2:
+• Added the option to watch the list of matching files without any action;
+• Support for profile version 1 has been discontinued;
+• User videoguide has been added
+
 Version 1.1.4:
 • Internal assemblies have been updated
 

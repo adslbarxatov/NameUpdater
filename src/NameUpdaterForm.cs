@@ -143,6 +143,8 @@ namespace RD_AAOW
 			RDLocale.SetControlText (Label10);
 			RDLocale.SetControlText (InputPage);
 			RDLocale.SetControlText (OutputPage);
+
+			RDLocale.SetControlText (ShowResultsActionFlag);
 			}
 
 		// Справка
@@ -374,7 +376,7 @@ namespace RD_AAOW
 				}
 
 			// Контроль действий над файлами
-			if (!MoveToActionFlag.Checked && !RenameToActionFlag.Checked)
+			if (!MoveToActionFlag.Checked && !RenameToActionFlag.Checked && !ShowResultsActionFlag.Checked)
 				{
 				RDInterface.LocalizedMessageBox (RDMessageFlags.Warning | RDMessageFlags.CenterText,
 					"ErrorNoActions");
@@ -496,6 +498,12 @@ namespace RD_AAOW
 					RDMessageFlags.LockSmallSize, "ErrorNoFitsFound");
 				return;
 				}
+
+			if (ShowResultsActionFlag.Checked)
+				_ = new NameUpdaterResults (sourceFileNames.ToArray (), sourceFileInfo.ToArray ());
+
+			if (!MoveToActionFlag.Checked && !RenameToActionFlag.Checked)
+				return;
 
 			// Формирование имён конечных файлов
 			startNumber = (ulong)NumberOffsetField.Value;
@@ -767,6 +775,8 @@ namespace RD_AAOW
 
 				CreateDirectoryFlag.Checked = profile.CreateDirectory;
 				NumberOffsetField.Value = profile.NumberOffset;
+
+				ShowResultsActionFlag.Checked = profile.ShowResultsList;
 				}
 			catch
 				{
@@ -835,6 +845,8 @@ namespace RD_AAOW
 
 			profile.CreateDirectory = CreateDirectoryFlag.Checked;
 			profile.NumberOffset = (ulong)NumberOffsetField.Value;
+
+			profile.ShowResultsList = ShowResultsActionFlag.Checked;
 
 			// Добавление
 			profile.Version = RDFormatSignatures.NUPActual;
